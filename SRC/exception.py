@@ -1,5 +1,5 @@
 import sys
-import logging
+from SRC.logger import logging
 
 # error message raise it return own CustomException message 
 def error_message_detail(error,error_deatails :sys): # step 2- find the error 
