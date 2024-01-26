@@ -1,9 +1,12 @@
 import os
 import sys
+
 from SRC.exception import CustomException
 from SRC.logger import logging
 from SRC.components.data_transformation import DataTransformation
 from SRC.components.data_transformation import DataTransformationConfig
+from SRC.components.model_train import ModelTrainerConfig
+from SRC.components.model_train import ModelTrainer
 
 import pandas as pd 
 from sklearn.model_selection import train_test_split
@@ -56,7 +59,7 @@ class Dataingestion:
             return(
                 
                 self.ingestion_config.train_data_path,
-                self.ingestion_config.test_data_path
+                self.ingestion_config.test_data_path,
             )
 
         except Exception as e:
@@ -65,7 +68,12 @@ class Dataingestion:
 
 if __name__=="__main__":
     obj=Dataingestion()
-    train_data,test_data=obj.intiate_data_ingestion()            
+    train_data,test_data=obj.intiate_data_ingestion() 
+
+
     data_transformation=DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
-    # data_transformation.initiate_data_transformation(test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+   
+
+    model_trainer=ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr,test_arr))
